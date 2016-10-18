@@ -4,7 +4,7 @@ Builds and uplods an Arch Linux image for running on Azure.
 
 ## Requirements
 
- * [Azure CLI](https://github.com/Azure/azure-cli) (the new Python Azure CLI)
+ * [Azure CLI](https://github.com/Azure/azure-cli) (the new Python Azure CLI) (`pip install --user azure-cli`)
 
 ## Usage
 
@@ -55,10 +55,14 @@ Following these steps will create:
 The VHD URL will be in the `./build/_output` directory.
 
 ### Deploy a VM from the Image
+
+1. Deploy it!
    ```shell
    cd _deploy
    ./deploy.sh
    ```
+
+2. That's it! Really!
 
 This will try to determine the Arch Linux ISO URL from a previous upload.
 You'll need to specify it manually if it wasn't uploaded recently or was deleted.
