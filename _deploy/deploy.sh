@@ -3,18 +3,35 @@
 set -eu -o pipefail
 set -x
 
-RESOURCE_GROUP="colemick-acs-linuxdev"
-LOCATION="westus2"
+if [[ -z "${1:-}" ]]; then
+	echo "First arg must be instance name" >&2
+	exit -1
+fi
 
-# TODO: fix this
-# see: https://github.com/Azure/azure-cli/issues/1061
+ARCH_URL="$(cat ../_output/url.txt)"
+VM_SIZE="${VM_SIZE:-"Standard_F8S"}"
 
-#az resource group create \
-#	--name "${RESOURCE_GROUP}" \
-#	--location "${LOCATION}"
+if [[ -z "${ARCH_URL:-}" ]]; then
+	echo "ARCH_URL needs to be specified!" >&2
+	exit -1
+fi
+
+param_file="$(mktemp)"
+cat <<EOF >"${param_file}"
+{
+	"username": { "value": "$(whoami)" },
+	"instanceName": { "value": "${1}" },
+	"storageAccountName": { "value": "${AZURE_STORAGE_ACCOUNT}" },
+	"vmDiskImageUrl": { "value": "${ARCH_URL}" },
+	"vmSize": { "value": "${VM_SIZE}" },
+	"sshPublicKey": { "value": "$(cat ~/.ssh/id_rsa.pub)" }
+}
+EOF
+
+exit -1
 
 az resource group deployment create \
-	--name "${RESOURCE_GROUP}-deployment-${RANDOM}" \
-	--resource-group "${RESOURCE_GROUP}" \
+	--name "${AZURE_RESOURCE_GROUP}-deployment-${RANDOM}" \
+	--resource-group "${AZURE_RESOURCE_GROUP}" \
 	--template-file-path "./azuredeploy.json" \
-	--parameters-file-path "./azuredeploy.parameters.json"
+	--parameters-file-path "${param_file}"

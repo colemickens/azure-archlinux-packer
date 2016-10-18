@@ -8,6 +8,9 @@
     "username": {
       "value": "cole"
     },
+    "storageAccountName": {
+      "value": ""
+    },
     "vmDiskImageUrl": {
       "value": "https://colemickarchvhds.blob.core.windows.net/images/archlinux-2016.10.01-azure-20161018032609.vhd"
     },
