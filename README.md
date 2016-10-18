@@ -1,8 +1,11 @@
 # azure-archlinux-packer
 
+**NOTE**: This is *not* supported by me (Cole Mickens), Microsoft, Azure, or ArchLinux.
+
 Builds, uploads, and deploys an [ArchLinux](https://www.archlinux.org/) image on Azure.
 
 See below for [caveats](#caveats) and [TODOs](#TODO).
+
 
 ## Requirements
 
