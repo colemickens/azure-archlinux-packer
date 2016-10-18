@@ -82,8 +82,6 @@ You'll need to specify it manually if it wasn't uploaded recently or was deleted
 
 ## Advanced
 
-You can `export DEV=y` before running `./build-in-docker.sh`
-to drop into bash and have your current checkout mounted into the container
-for development and faster iteration.
+### Local Mirror
 
 The `local-mirror` directory includes a script that will run `nginx` as a reverse, caching proxy in front of some Arch Linux mirrors. Make sure to `export ENABLE_PACMAN_CACHE=y` to enable usage.
