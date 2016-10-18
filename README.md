@@ -2,9 +2,9 @@
 
 Builds and uplods an Arch Linux image for running on Azure.
 
-Usage:
+## Usage
 
-## Build and Upload the Image
+### Build and Upload the Image
 
 0. Prepare to build the image.
    ```shell
@@ -21,7 +21,7 @@ Usage:
 
 The VHD URL will be in the `./build/_output` directory.
 
-## Deploy a VM from the Image
+### Deploy a VM from the Image
 
 #### Method 1: Template Deployment Online
 
