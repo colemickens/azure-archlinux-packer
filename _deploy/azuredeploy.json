@@ -54,7 +54,6 @@
     "storageAccountName": "[parameters('storageAccountName')]",
     "storageContainerName": "vhds",
     "username": "[parameters('username')]",
-    "password": "MickensAbc123!",
     "sshPublicKey": "[parameters('sshPublicKey')]"
   },
   "resources": [
@@ -184,7 +183,6 @@
         "osProfile": {
           "computerName": "[variables('vmName')]",
           "adminUsername": "[variables('username')]",
-          "adminPassword": "[variables('password')]",
           "linuxConfiguration": {
             "disablePasswordAuthentication": "true",
             "ssh": {
