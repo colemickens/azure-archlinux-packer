@@ -2,6 +2,7 @@
 
 Builds, uploads, and deploys an [ArchLinux](https://www.archlinux.org/) image on Azure.
 
+See below for [caveats](#caveats) and [TODOs](#TODO).
 
 ## Requirements
 
@@ -92,6 +93,11 @@ You'll need to specify it manually if it wasn't uploaded recently or was deleted
 4. The `walinuxagent` in this image isn't fully functional. This can lead
    to **real issues**, such as the VM failing to resize or extensions
    failing to provision.
+
+
+## TODO
+
+1. Remove `walinuxagent` whenever support for this is added to the Azure Platform.
 
 
 ## Advanced
