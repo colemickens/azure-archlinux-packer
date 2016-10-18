@@ -25,7 +25,7 @@ Following these steps will create:
 
 0. Choose some deployment values:
    ```shell
-   export RESOURCE_GROUP=colemick-resource-group
+   export RESOURCE_GROUP=colemick-acs-linuxdev
    export STORAGE_ACCOUNT=colemickarchstrg
    export LOCATION=westus2
    ```
