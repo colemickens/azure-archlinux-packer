@@ -20,6 +20,12 @@
         "description": "User Name for the Virtual Machine"
       }
     },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Storage Account"
+      }
+    },
     "sshPublicKey": {
       "type": "string",
       "metadata": {
@@ -45,22 +51,13 @@
     "subnetCidr": "10.0.0.0/16",
     "pipName": "[concat(parameters('instanceName'),'-pip')]",
     "pipType": "Static",
-    "storageAccountName": "[concat(parameters('instanceName'), 'strg')]",
-    "storageAccountType": "Premium_LRS",
+    "storageAccountName": "[parameters('storageAccountName')]",
     "storageContainerName": "vhds",
     "username": "[parameters('username')]",
+    "password": "MickensAbc123!",
     "sshPublicKey": "[parameters('sshPublicKey')]"
   },
   "resources": [
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
-      }
-    },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
@@ -178,23 +175,23 @@
       "name": "[variables('vmName')]",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
+          "vmSize": "[variables('vmSize')]"
         },
         "osProfile": {
           "computerName": "[variables('vmName')]",
-          "adminUsername": "[parameters('username')]",
+          "adminUsername": "[variables('username')]",
+          "adminPassword": "[variables('password')]",
           "linuxConfiguration": {
             "disablePasswordAuthentication": "true",
             "ssh": {
               "publicKeys": [
                 {
-                  "path": "[concat('/home/',parameters('username'),'/.ssh/authorized_keys')]",
-                  "keyData": "[parameters('sshPublicKey')]"
+                  "path": "[concat('/home/',variables('username'),'/.ssh/authorized_keys')]",
+                  "keyData": "[variables('sshPublicKey')]"
                 }
               ]
             }
@@ -207,7 +204,7 @@
             "osType": "Linux",
             "createOption": "FromImage",
             "image": {
-              "uri": "[parameters('vmDiskImageUrl')]"
+              "uri": "[variables('vmDiskImageUrl')]"
             },
             "vhd": {
               "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('storageContainerName'),'/', variables('vmName'),'-os-disk.vhd')]"
@@ -218,6 +215,7 @@
               "name": "[concat(variables('vmName'),'-data-disk-0')]",
               "diskSizeGB": "1023",
               "lun": 0,
+              "caching": "ReadOnly",
               "vhd": {
                 "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('storageContainerName'),'/', variables('vmName'),'-data-disk-0.vhd')]"
               },

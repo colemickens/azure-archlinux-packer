@@ -27,8 +27,6 @@ cat <<EOF >"${param_file}"
 }
 EOF
 
-exit -1
-
 az resource group deployment create \
 	--name "${AZURE_RESOURCE_GROUP}-deployment-${RANDOM}" \
 	--resource-group "${AZURE_RESOURCE_GROUP}" \
