@@ -94,6 +94,8 @@ You'll need to specify it manually if it wasn't uploaded recently or was deleted
    to **real issues**, such as the VM failing to resize or extensions
    failing to provision.
 
+   In fact, it may actual simply fail to provision properly...
+
 
 ## TODO
 
