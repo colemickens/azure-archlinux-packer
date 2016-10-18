@@ -9,7 +9,8 @@ if [[ ! -z "${PACMAN_CACHE:-}" ]]; then
 fi
 
 BOOTSTRAP_PACKAGES=(base base-devel vim)
-BOOTSTRAP_PACKAGES+=(git zsh mosh tmux stow curl)
+BOOTSTRAP_PACKAGES+=(git zsh mosh tmux stow curl htop)
+BOOTSTRAP_PACKAGES+=(go rustup python ruby perl)
 
 ## Disk
 DISK='/dev/sda'
@@ -28,12 +29,13 @@ mkdir -p /mnt/boot
 /usr/bin/mkfs.ext4 -F -m 0 -q -L root ${ROOT_PARTITION}
 /usr/bin/mount -o noatime,errors=remount-ro ${ROOT_PARTITION} /mnt
 
-
 pacman -Syy
 pacstrap /mnt "${BOOTSTRAP_PACKAGES[@]}"
+
+## Fstab
 genfstab -p /mnt > /mnt/etc/fstab
 
-cat configure.sh | arch-chroot /mnt bash -
+cat "configure.sh" | arch-chroot /mnt bash -
 
 sed -i "1d" /mnt/etc/pacman.d/mirrorlist
 

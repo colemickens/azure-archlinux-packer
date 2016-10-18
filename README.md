@@ -9,7 +9,9 @@ See below for [caveats](#caveats) and [TODOs](#TODO).
 
 ## Requirements
 
- * [Azure CLI](https://github.com/Azure/azure-cli) (the new Python Azure CLI) (`pip install --user azure-cli`)
+ * `docker` (optional, but expected by `README`, see `Makefile`)
+ * `make`
+ * An Azure AD ServicePrincipal with access to the subscrition
 
 
 ## Usage
@@ -27,62 +29,25 @@ Following these steps will create:
   * a **1TB** Premium data disk attached to the VM
 
 
-### Build and Upload the Image
+### Build and Upload and Deploy the Image
 
-0. Choose some deployment values:
-   ```shell
-   export AZURE_SUBSCRIPTION_ID={some guid}
-   export AZURE_CLIENT_ID={some guid}
-   export AZURE_CLIENT_SECRET={some secret}
-   export AZURE_RESOURCE_GROUP=colemick-acs-linuxdev
-   export AZURE_STORAGE_ACCOUNT=colemickarchstrg
-   export AZURE_STORAGE_CONTAINER=images
-   export AZURE_VM_SIZE=Standard_F8S
-   export AZURE_LOCATION=westus2
-   ```
-
-   If you are using [the local nginx mirror](#local-mirror), make sure to enable the pacman cache:
-   ```shell
-   export ENABLE_PACMAN_CACHE=y
-   ```
-
-1. Create a Storage Account.
-   ```shell
-   az storage account create \
-       --resource-group="${RESOURCE_GROUP}" \
-       --name="${STORAGE_ACCOUNT}" \
-       --location="${LOCATION}" \
-       --sku="Premium_LRS"
-   ```
-
-0. Prepare to build the image.
+0. Prepare the Environment:
    ```shell
    cp ./example.env ./user.env
 
-   # edit ./user.env
-   vim ./user.env
+   # edit the config and fill in the values
+   # soure the file right after so we don't forget to
+   vim user.env; source ./user.env
    ```
 
-1. Build and upload the image.
+2. Build and upload and deploy the image.
    ```shell
-   ./build-in-docker.sh
+   make
    ```
+
+   Alternatively, you may `make build && make upload && make deploy`.
 
 The VHD URL will be in the `./_output` directory.
-
-
-### Deploy a VM from the Image
-
-This will try to determine the Arch Linux ISO URL from a previous upload.
-You'll need to specify it manually if it wasn't uploaded recently or was deleted.
-
-1. Deploy it!
-   ```shell
-   cd _deploy
-   ./deploy.sh
-   ```
-
-2. That's it! Really!
 
 
 ## Caveats
