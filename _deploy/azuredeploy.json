@@ -52,7 +52,7 @@
     "sshPublicKey": "[parameters('sshPublicKey')]"
   },
   "resources": [
-	  {
+    {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[variables('storageAccountName')]",
@@ -88,7 +88,7 @@
           {
             "name": "[variables('subnetName')]",
             "properties": {
-              "addressPrefix": "[parameters('subnetCidr')]"
+              "addressPrefix": "[variables('subnetCidr')]"
             }
           }
         ]
@@ -147,7 +147,7 @@
       }
     },
     {
-      "apiVersion": "2016-06-15",
+      "apiVersion": "2016-09-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
       "location": "[resourceGroup().location]",
@@ -165,7 +165,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('pipName'))]"
               },
               "subnet": {
-                "id": "[concat(resourceId('Microsoft/Network/vnet/', variables('vnetName')), '/subnets/', variables('subnetName'))]"
+                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks/', variables('vnetName')), '/subnets/', variables('subnetName'))]"
               }
             }
           }
@@ -198,21 +198,23 @@
                 }
               ]
             }
-          },
-          "storageProfile": {
-            "osDisk": {
-              "name": "[concat(variables('vmName'),'-os-disk')]",
-              "caching": "ReadOnly",
-              "createOption": "FromImage",
-              "image": {
-                "uri": "[parameters('vmDiskImageUrl')]"
-              },
-              "vhd": {
-                "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('storageContainerName'),'/', variables('vmName'),'-os-disk.vhd')]"
-              }
+          }
+        },
+        "storageProfile": {
+          "osDisk": {
+            "name": "[concat(variables('vmName'),'-os-disk')]",
+            "caching": "ReadOnly",
+            "osType": "Linux",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "[parameters('vmDiskImageUrl')]"
             },
-			"dataDisks": [
-				{
+            "vhd": {
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('storageContainerName'),'/', variables('vmName'),'-os-disk.vhd')]"
+            }
+          },
+          "dataDisks": [
+            {
               "name": "[concat(variables('vmName'),'-data-disk-0')]",
               "diskSizeGB": "1023",
               "lun": 0,
@@ -221,15 +223,14 @@
               },
               "createOption": "Empty"
             }
-			]
-          },
-          "networkProfile": {
-            "networkInterfaces": [
-              {
-                "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
-              }
-            ]
-          }
+          ]
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+            }
+          ]
         }
       }
     }

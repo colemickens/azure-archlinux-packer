@@ -2,9 +2,42 @@
 
 Builds and uplods an Arch Linux image for running on Azure.
 
+## Requirements
+
+ * [Azure CLI](https://github.com/Azure/azure-cli) (the new Python Azure CLI)
+
 ## Usage
 
+These instructions will walk you through everything you need to create
+and upload an Azure VHD and create a Virtual Machine from the image.
+
+Following these steps will create:
+
+  * a new Premium Storage Account
+  * a new VirtualNetwork and Subnet
+  * a new Network Security Group (with rules for SSH, Mosh, 9K-10K)
+  * a public IP with a NIC for the VM
+  * a new `Standard_F8S` VM
+  * a **1TB** Premium data disk attached to the VM
+
+
 ### Build and Upload the Image
+
+0. Choose some deployment values:
+   ```shell
+   export RESOURCE_GROUP=colemick-resource-group
+   export STORAGE_ACCOUNT=colemickarchstrg
+   export LOCATION=westus2
+   ```
+
+1. Create a Storage Account.
+   ```shell
+   az storage account create \
+       --resource-group="${RESOURCE_GROUP}" \
+       --name="${STORAGE_ACCOUNT}" \
+       --location="${LOCATION}" \
+       --sku="Premium_LRS"
+   ```
 
 0. Prepare to build the image.
    ```shell
@@ -22,30 +55,13 @@ Builds and uplods an Arch Linux image for running on Azure.
 The VHD URL will be in the `./build/_output` directory.
 
 ### Deploy a VM from the Image
-
-#### Method 1: Template Deployment Online
-
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fcolemickens%2Fazure-archlinux-packer%2Fmaster%2F_deploy%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
-
-#### Method 2: Template Deployment From Script
-
-0. Choose a resource group name
-   ```shell
-   export RESOURCE_GROUP=colemick-resource-group
-   ```
-
-1. Create the resource group
-   ```shell
-   az resource group create --name='colemick-resource-group' --location='westus2'
-   ```
-
-2. Deploy template into the resource group
    ```shell
    cd _deploy
    ./deploy.sh
    ```
+
+This will try to determine the Arch Linux ISO URL from a previous upload.
+You'll need to specify it manually if it wasn't uploaded recently or was deleted.
 
 ## Advanced
 
