@@ -33,6 +33,7 @@ Following these steps will create:
    export AZURE_RESOURCE_GROUP=colemick-acs-linuxdev
    export AZURE_STORAGE_ACCOUNT=colemickarchstrg
    export AZURE_STORAGE_CONTAINER=images
+   export AZURE_VM_SIZE=Standard_F8S
    export AZURE_LOCATION=westus2
    ```
 
@@ -63,7 +64,7 @@ Following these steps will create:
    ./build-in-docker.sh
    ```
 
-The VHD URL will be in the `./build/_output` directory.
+The VHD URL will be in the `./_output` directory.
 
 
 ### Deploy a VM from the Image
