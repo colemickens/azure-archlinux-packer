@@ -9,7 +9,6 @@ if [[ -z "${1:-}" ]]; then
 fi
 
 ARCH_URL="$(cat ../_output/url.txt)"
-VM_SIZE="${VM_SIZE:-"Standard_F8S"}"
 
 if [[ -z "${ARCH_URL:-}" ]]; then
 	echo "ARCH_URL needs to be specified!" >&2
@@ -23,7 +22,7 @@ cat <<EOF >"${param_file}"
 	"instanceName": { "value": "${1}" },
 	"storageAccountName": { "value": "${AZURE_STORAGE_ACCOUNT}" },
 	"vmDiskImageUrl": { "value": "${ARCH_URL}" },
-	"vmSize": { "value": "${VM_SIZE}" },
+	"vmSize": { "value": "${AZURE_VM_SIZE}" },
 	"sshPublicKey": { "value": "$(cat ~/.ssh/id_rsa.pub)" }
 }
 EOF

@@ -81,8 +81,23 @@ You'll need to specify it manually if it wasn't uploaded recently or was deleted
 2. That's it! Really!
 
 
+## Caveats
+
+1. This is not supported by me (Cole Mickens).
+
+2. This is not supported by Microsoft or Azure.
+
+3. This is not supported by ArchLinux.
+
+4. The `walinuxagent` in this image isn't fully functional. This can lead
+   to **real issues**, such as the VM failing to resize or extensions
+   failing to provision.
+
+
 ## Advanced
 
 ### Local Mirror
 
 The `local-mirror` directory includes a script that will run `nginx` as a reverse, caching proxy in front of some Arch Linux mirrors. Make sure to `export ENABLE_PACMAN_CACHE=y` to enable usage.
+
+This greatly, greatly speeds up the image build process.
