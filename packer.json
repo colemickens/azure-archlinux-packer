@@ -1,0 +1,61 @@
+{
+  "variables": {
+    "arch_iso_url": "",
+    "arch_iso_sha256": "",
+    "pacman_cache": "",
+    "disk_size": "30000"
+  },
+  "builders": [
+    {
+      "vm_name": "default",
+      "output_directory": "./_output/qemu",
+      "accelerator": "kvm",
+      "type": "qemu",
+      "iso_url": "{{ user `arch_iso_url` }}",
+      "iso_checksum": "{{ user `arch_iso_sha256` }}",
+      "iso_checksum_type": "sha256",
+      "http_directory": "./http",
+      "boot_wait": "5s",
+      "disk_interface": "virtio-scsi",
+      "disk_cache": "unsafe",
+      "disk_discard": "unmap",
+      "disk_compression": true,
+      "format": "raw",
+      "boot_command": [
+        "<wait><enter><wait10><wait10>",
+        "curl http://{{ .HTTPIP }}:{{ .HTTPPort }}/ssh.sh | bash<enter><wait2>"
+      ],
+      "headless": true,
+      "disk_size": "{{ user `disk_size` }}",
+      "ssh_username": "root",
+      "ssh_password": "root",
+      "qemuargs": [
+          "-nographic"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "scripts",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "environment_vars": [
+        "PACMAN_CACHE={{ user `pacman_cache` }}"
+      ],
+      "inline": [
+        "cd /tmp/scripts && bash bootstrap.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+        "type": "shell-local",
+        "inline": [
+          "set -e; qemu-img convert -f raw -O vpc -o subformat=fixed,force_size ./_output/qemu/default ./_output/default.vhd"
+        ]
+    }
+  ]
+}
