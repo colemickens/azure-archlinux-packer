@@ -54,7 +54,11 @@ Following these steps will create:
 
 The VHD URL will be in the `./build/_output` directory.
 
+
 ### Deploy a VM from the Image
+
+This will try to determine the Arch Linux ISO URL from a previous upload.
+You'll need to specify it manually if it wasn't uploaded recently or was deleted.
 
 1. Deploy it!
    ```shell
@@ -64,8 +68,6 @@ The VHD URL will be in the `./build/_output` directory.
 
 2. That's it! Really!
 
-This will try to determine the Arch Linux ISO URL from a previous upload.
-You'll need to specify it manually if it wasn't uploaded recently or was deleted.
 
 ## Advanced
 
