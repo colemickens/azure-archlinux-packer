@@ -1,10 +1,12 @@
 # azure-archlinux-packer
 
-Builds and uplods an Arch Linux image for running on Azure.
+Builds, uploads, and deploys an [ArchLinux](https://www.archlinux.org/) image on Azure.
+
 
 ## Requirements
 
  * [Azure CLI](https://github.com/Azure/azure-cli) (the new Python Azure CLI) (`pip install --user azure-cli`)
+
 
 ## Usage
 
@@ -25,9 +27,18 @@ Following these steps will create:
 
 0. Choose some deployment values:
    ```shell
-   export RESOURCE_GROUP=colemick-acs-linuxdev
-   export STORAGE_ACCOUNT=colemickarchstrg
-   export LOCATION=westus2
+   export AZURE_SUBSCRIPTION_ID={some guid}
+   export AZURE_CLIENT_ID={some guid}
+   export AZURE_CLIENT_SECRET={some secret}
+   export AZURE_RESOURCE_GROUP=colemick-acs-linuxdev
+   export AZURE_STORAGE_ACCOUNT=colemickarchstrg
+   export AZURE_STORAGE_CONTAINER=images
+   export AZURE_LOCATION=westus2
+   ```
+
+   If you are using the local nginx mirror, make sure to enable the pacman cache:
+   ```shell
+   export ENABLE_PACMAN_CACHE=y
    ```
 
 1. Create a Storage Account.
