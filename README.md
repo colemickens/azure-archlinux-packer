@@ -36,7 +36,7 @@ Following these steps will create:
    export AZURE_LOCATION=westus2
    ```
 
-   If you are using the local nginx mirror, make sure to enable the pacman cache:
+   If you are using [the local nginx mirror](#local-mirror), make sure to enable the pacman cache:
    ```shell
    export ENABLE_PACMAN_CACHE=y
    ```
