@@ -8,10 +8,6 @@ if [[ ! -z "${PACMAN_CACHE:-}" ]]; then
   sed -i "1i Server = ${PACMAN_CACHE}" /etc/pacman.d/mirrorlist
 fi
 
-BOOTSTRAP_PACKAGES=(base base-devel vim)
-BOOTSTRAP_PACKAGES+=(git zsh mosh tmux stow curl htop)
-BOOTSTRAP_PACKAGES+=(go rustup python ruby perl)
-
 ## Disk
 DISK='/dev/sda'
 BIOS_PARTITION="${DISK}1"
@@ -29,8 +25,9 @@ mkdir -p /mnt/boot
 /usr/bin/mkfs.ext4 -F -m 0 -q -L root ${ROOT_PARTITION}
 /usr/bin/mount -o noatime,errors=remount-ro ${ROOT_PARTITION} /mnt
 
+## Bootstrap
 pacman -Syy
-pacstrap /mnt "${BOOTSTRAP_PACKAGES[@]}"
+pacstrap /mnt base base-devel
 
 ## Fstab
 genfstab -p /mnt > /mnt/etc/fstab

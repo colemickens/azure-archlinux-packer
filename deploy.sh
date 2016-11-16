@@ -18,13 +18,15 @@ ARCH_URL="$(cat ./_output/url.txt)"
 VERSION="$(printf '%x' $(date '+%s'))"
 INSTANCE_NAME="${1:-"azdev-${VERSION}"}"
 
+AZURE_VM_SIZE="Standard_F16S"
+
 set +x
 az login \
     --service-principal \
     --tenant "${AZURE_TENANT_ID}" \
     --user "${AZURE_CLIENT_ID}" \
     --password "${AZURE_CLIENT_SECRET}"
-az account set --name "${AZURE_SUBSCRIPTION_ID}"
+az account set --subscription "${AZURE_SUBSCRIPTION_ID}"
 set -x
 
 if [[ -z "${ARCH_URL:-}" ]]; then
@@ -47,5 +49,5 @@ EOF
 az resource group deployment create \
     --name "${AZURE_RESOURCE_GROUP}-deployment-${RANDOM}" \
     --resource-group "${AZURE_RESOURCE_GROUP}" \
-    --template-file-path "./azuredeploy.json" \
-    --parameters-file-path "${param_file}"
+    --template-file "./azuredeploy.json" \
+    --parameters "@${param_file}"

@@ -4,7 +4,8 @@ Builds, uploads, and deploys an [ArchLinux](https://www.archlinux.org/) image on
 
 See below for [caveats](#caveats) and [TODOs](#TODO).
 
-**NOTE**: This is *not* supported by me (Cole Mickens), Microsoft, Azure, or ArchLinux. However, [Issues](https://github.com/colemickens/azure-archlinux-packer/issues) are welcome.
+**NOTE**: This is *not* supported by me (Cole Mickens), Microsoft, Azure, or Arch Linux.
+However, [Issues](https://github.com/colemickens/azure-archlinux-packer/issues) are welcome.
 
 
 ## Requirements
@@ -33,11 +34,10 @@ Following these steps will create:
 
 0. Prepare the Environment:
    ```shell
-   cp ./example.env ./user.env
+   cp ./user.env.template ./user.env
 
    # edit the config and fill in the values
-   # soure the file right after so we don't forget to
-   vim user.env; source ./user.env
+   vim user.env
    ```
 
 2. Build and upload and deploy the image.
@@ -56,7 +56,7 @@ The VHD URL will be in the `./_output` directory.
 
 2. This is not supported by Microsoft or Azure.
 
-3. This is not supported by ArchLinux.
+3. This is not supported by Arch Linux.
 
 4. The `walinuxagent` in this image isn't fully functional. This can lead
    to **real issues**, such as the VM failing to resize or extensions
@@ -67,13 +67,14 @@ The VHD URL will be in the `./_output` directory.
 
 ## TODO
 
-1. Remove `walinuxagent` whenever support for this is added to the Azure Platform.
+1. Remove `walinuxagent` whenever Azure supports agent-less Linux.
 
 
 ## Advanced
 
 ### Local Mirror
 
-The `local-mirror` directory includes a script that will run `nginx` as a reverse, caching proxy in front of some Arch Linux mirrors. Make sure to `export ENABLE_PACMAN_CACHE=y` to enable usage.
+The `local-mirror` directory includes a script that will run `nginx` as a reverse, caching proxy in front of some Arch Linux mirrors.
+Make sure to enable this in `user.env` if you run the mirror.
 
 This greatly, greatly speeds up the image build process.

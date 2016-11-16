@@ -10,16 +10,11 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
 ###############################################################################
 
-ARCHLINUX_VERSION="${ARCHLINUX_VERSION:-"2016.10.01"}"
-ARCH_ISO_SHA256="${ARCH_ISO_SHA256:-"3d2556b2c5ae1fea555c64f0790b728afa0ad7184d5b2742a06e1a29b2d857c2"}"
-ARCH_ISO_URL="${ARCH_ISO_URL:-"http://mirrors.kernel.org/archlinux/iso/${ARCHLINUX_VERSION}/archlinux-${ARCHLINUX_VERSION}-dual.iso"}"
-IMAGE_NAME="${IMAGE_NAME:-"archlinux-${ARCHLINUX_VERSION}-az"}"
-DISK_SIZE="${DISK_SIZE:-"30000"}"
 
 set -eu
 set -x
 
-BLOB_NAME="${BLOB_NAME:-"${IMAGE_NAME}-$(date +"%Y%m%d%H%M%S")"}"
+BLOB_NAME="${BLOB_NAME:-"archlinux-$(date +"%Y%m%d%H%M%S")"}"
 
 echo "\$AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}"
 echo "\$AZURE_TENANT_ID=${AZURE_TENANT_ID}"
@@ -37,7 +32,7 @@ az login \
   --tenant "${AZURE_TENANT_ID}" \
   --username "${AZURE_CLIENT_ID}" \
   --password "${AZURE_CLIENT_SECRET}"
-az account set --name "${AZURE_SUBSCRIPTION_ID}"
+az account set --subscription "${AZURE_SUBSCRIPTION_ID}"
 
 # Upload: Ensure resource group exists
 rg_exists="$(az resource group show --name "${AZURE_RESOURCE_GROUP}" || true)"

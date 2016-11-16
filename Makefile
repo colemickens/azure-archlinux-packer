@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 all: build upload deploy
 
 build upload deploy:
