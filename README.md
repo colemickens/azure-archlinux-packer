@@ -57,8 +57,7 @@ This process creates the following assets in Azure:
    make
    ```
 Alternatively, you can call the commands manually with `make {build,upload,deploy}`,
-or you can run the actual shell scripts by hand. This avoids needing `docker` but
-in return requirements a number of other dependencies.
+or you can run the actual shell scripts by hand. This avoids needing `docker` but, in return, requires a number of other dependencies.
 
 
 ## TODO
