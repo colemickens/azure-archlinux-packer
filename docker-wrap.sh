@@ -1,7 +1,7 @@
 #/usr/bin/env bash
 
 set -x
-set -eu -o pipefail
+#set -eu -o pipefail
 
 CMD="${1:-"/bin/bash"}"
 

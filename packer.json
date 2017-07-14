@@ -1,7 +1,7 @@
 {
   "variables": {
     "arch_iso_url": "",
-    "arch_iso_sha256": "",
+    "arch_iso_sha1": "",
     "pacman_cache": "",
     "disk_size": "30000"
   },
@@ -12,8 +12,8 @@
       "accelerator": "kvm",
       "type": "qemu",
       "iso_url": "{{ user `arch_iso_url` }}",
-      "iso_checksum": "{{ user `arch_iso_sha256` }}",
-      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{ user `arch_iso_sha1` }}",
+      "iso_checksum_type": "sha1",
       "http_directory": "./http",
       "boot_wait": "5s",
       "disk_interface": "virtio-scsi",

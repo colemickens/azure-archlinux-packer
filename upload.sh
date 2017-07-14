@@ -60,7 +60,7 @@ if [[ -z "${container_exists}" ]]; then
 fi
 
 # Upload: Perform the upload
-azure-vhd-utils-for-go upload \
+azure-vhd-utils upload \
   --localvhdpath="_output/default.vhd" \
   --stgaccountname="${AZURE_STORAGE_ACCOUNT}" \
   --stgaccountkey="${AZURE_STORAGE_ACCESS_KEY}" \

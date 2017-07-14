@@ -29,7 +29,7 @@ RUN apt-get update && apt-get -y upgrade \
 # Install azure-cli
 RUN pip install azure-cli
 
-# Install azure-vhd-utils-for-go for fast vhd upload
+# Install azure-vhd-utils for fast vhd upload
 ENV GOPATH "$HOME/gopath"
 ENV PATH="$PATH:$GOPATH/bin"
 RUN bash -c "\
@@ -37,7 +37,7 @@ RUN bash -c "\
     wget 'https://godeb.s3.amazonaws.com/godeb-amd64.tar.gz' && \
     tar xvfz godeb-amd64.tar.gz && \
     ./godeb install 1.7"
-RUN bash -c "go get github.com/Microsoft/azure-vhd-utils-for-go"
+RUN bash -c "go get github.com/Microsoft/azure-vhd-utils"
 
 # Install Packer
 ENV PACKER_VERSION=0.10.2
