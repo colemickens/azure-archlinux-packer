@@ -35,10 +35,10 @@ az login \
 az account set --subscription "${AZURE_SUBSCRIPTION_ID}"
 
 # Upload: Ensure resource group exists
-rg_exists="$(az resource group show --name "${AZURE_RESOURCE_GROUP}" || true)"
+rg_exists="$(az resource show --name "${AZURE_RESOURCE_GROUP}" || true)"
 if [[ -z "${rg_exists}" ]]; then
   echo "upload: creating resource group ${AZURE_RESOURCE_GROUP}"
-  az resource group create -n "${AZURE_RESOURCE_GROUP}" -l "westus"
+  az resource create -n "${AZURE_RESOURCE_GROUP}" -l "westus"
 fi
 
 # Upload: Ensure Storage Account exists
