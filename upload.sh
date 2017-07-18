@@ -49,7 +49,7 @@ if [[ -z "${account_exists}" ]]; then
 fi
 
 # Upload: Retrieve Storage Account Key
-storage_key=$(az storage account keys list --account-name "${AZURE_STORAGE_ACCOUNT}" -g "${AZURE_RESOURCE_GROUP}" | jq -r '.keys[0].value')
+storage_key=$(az storage account keys list --account-name "${AZURE_STORAGE_ACCOUNT}" -g "${AZURE_RESOURCE_GROUP}" | jq -r '.[0].value')
 export AZURE_STORAGE_ACCESS_KEY="${storage_key}"
 
 # Upload: Ensure Storage Container exists
