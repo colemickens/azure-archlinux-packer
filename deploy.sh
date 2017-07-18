@@ -44,7 +44,7 @@ cat <<EOF >"${param_file}"
 }
 EOF
 
-az resource group deployment create \
+az group deployment create \
     --name "${AZURE_RESOURCE_GROUP}-deployment-${RANDOM}" \
     --resource-group "${AZURE_RESOURCE_GROUP}" \
     --template-file "./azuredeploy.json" \
