@@ -6,4 +6,4 @@ build upload deploy:
 	$(MAKE) do WHAT=$@
 
 do:
-	(source ./user.env && ./docker-wrap.sh ./$(WHAT).sh)
+	(. ./user.env && ./docker-wrap.sh ./$(WHAT).sh)

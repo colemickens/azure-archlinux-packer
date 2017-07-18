@@ -35,10 +35,10 @@ az login \
 az account set --subscription "${AZURE_SUBSCRIPTION_ID}"
 
 # Upload: Ensure resource group exists
-rg_exists="$(az resource group show --name "${AZURE_RESOURCE_GROUP}" || true)"
+rg_exists="$(az group show --name "${AZURE_RESOURCE_GROUP}" || true)"
 if [[ -z "${rg_exists}" ]]; then
   echo "upload: creating resource group ${AZURE_RESOURCE_GROUP}"
-  az resource group create -n "${AZURE_RESOURCE_GROUP}" -l "westus"
+  az group create -n "${AZURE_RESOURCE_GROUP}" -l "westus"
 fi
 
 # Upload: Ensure Storage Account exists
@@ -49,18 +49,18 @@ if [[ -z "${account_exists}" ]]; then
 fi
 
 # Upload: Retrieve Storage Account Key
-storage_key=$(az storage account keys list --name "${AZURE_STORAGE_ACCOUNT}" -g "${AZURE_RESOURCE_GROUP}" | jq -r '.keys[0].value')
+storage_key=$(az storage account keys list --account-name "${AZURE_STORAGE_ACCOUNT}" -g "${AZURE_RESOURCE_GROUP}" | jq -r '.[0].value')
 export AZURE_STORAGE_ACCESS_KEY="${storage_key}"
 
 # Upload: Ensure Storage Container exists
-container_exists=$(az storage container show --name "${AZURE_STORAGE_CONTAINER}" | jq -r '.name' || true)
+container_exists=$(az storage container show --name "${AZURE_STORAGE_CONTAINER}" --account-name "${AZURE_STORAGE_ACCOUNT}" --account-key "${AZURE_STORAGE_ACCESS_KEY}"  | jq -r '.name' || true)
 if [[ -z "${container_exists}" ]]; then
   echo "upload: creating storage container ${AZURE_STORAGE_CONTAINER}"
-  az storage container create -p Blob "${AZURE_STORAGE_CONTAINER}"
+  az storage container create --public-access Blob --name "${AZURE_STORAGE_CONTAINER}" --account-name "${AZURE_STORAGE_ACCOUNT}" --account-key "${AZURE_STORAGE_ACCESS_KEY}"
 fi
 
 # Upload: Perform the upload
-azure-vhd-utils-for-go upload \
+azure-vhd-utils upload \
   --localvhdpath="_output/default.vhd" \
   --stgaccountname="${AZURE_STORAGE_ACCOUNT}" \
   --stgaccountkey="${AZURE_STORAGE_ACCESS_KEY}" \

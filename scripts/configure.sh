@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 
 set -x
 set -u
@@ -28,7 +28,7 @@ MANUAL_WALINUXAGENT=n
 echo 'temporaryhostname' > /etc/hostname
 
 ## Timezone
-ln -s /usr/share/zoneinfo/UTC /etc/localtime
+#ln -s /usr/share/zoneinfo/UTC /etc/localtime
 
 ## Locale
 echo 'LANG=en_US.UTF-8' > /etc/locale.conf
